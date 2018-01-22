@@ -142,7 +142,6 @@ Implement this new class syntax in the `FlashcardContainer` component.
 
     ```js
     class FlashcardContainer extends Component {
-        
         state = {
             flashcards: [],
             currentIndex: 0
@@ -195,7 +194,7 @@ Implement this new class syntax in the `FlashcardContainer` component.
             )
         }
     }
-```
+    ```
 
 </details>
 
