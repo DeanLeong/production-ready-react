@@ -136,62 +136,66 @@ class FlashcardDetail extends Component {
 Implement this new class syntax in the `FlashcardContainer` component.
 
 <details>
-<summary>Solution</summary>
+    <summary>Solution</summary>
 
-class FlashcardContainer extends Component {
-    
-    state = {
-        flashcards: [],
-        currentIndex: 0
-    }
+    <br>
 
-    next = () => {
-        let nextIndex = (this.state.currentIndex + 1) !== this.state.flashcards.length
-        ? this.state.currentIndex + 1
-        : this.state.currentIndex
+    ```js
+    class FlashcardContainer extends Component {
+        
+        state = {
+            flashcards: [],
+            currentIndex: 0
+        }
 
-        this.setState({ currentIndex: nextIndex })
-    }
+        next = () => {
+            let nextIndex = (this.state.currentIndex + 1) !== this.state.flashcards.length
+            ? this.state.currentIndex + 1
+            : this.state.currentIndex
 
-    prev = () => {
-        let prevIndex = (this.state.currentIndex - 1) < 0
-        ? 0
-        : (this.state.currentIndex - 1)
-        this.setState({ currentIndex: prevIndex })
-    }
+            this.setState({ currentIndex: nextIndex })
+        }
 
-    handleKeyUp = (event) => {
-        if (event.keyCode === 39) this.next()
-        if (event.keyCode === 37) this.prev()
-    }
+        prev = () => {
+            let prevIndex = (this.state.currentIndex - 1) < 0
+            ? 0
+            : (this.state.currentIndex - 1)
+            this.setState({ currentIndex: prevIndex })
+        }
 
-    componentDidMount () {
-        window.addEventListener('keyup', this.handleKeyUp)
+        handleKeyUp = (event) => {
+            if (event.keyCode === 39) this.next()
+            if (event.keyCode === 37) this.prev()
+        }
 
-        axios
-        .get(`${CLIENT_URL}/api/words`)
-        .then(response => this.setState({ flashcards: response.data }))
-        .catch(err => console.log(err))
-    }
+        componentDidMount () {
+            window.addEventListener('keyup', this.handleKeyUp)
 
-    componentWillUnmount () {
-        window.removeEventListener('keyup', this.handleKeyUp)
-    }
+            axios
+            .get(`${CLIENT_URL}/api/words`)
+            .then(response => this.setState({ flashcards: response.data }))
+            .catch(err => console.log(err))
+        }
 
-    render () {
-        let flashcard = this.state.flashcards[this.state.currentIndex]
-        return (
-        <div>
-            <main>
-            <div className='container'>
-                {flashcard &&
-                <FlashcardDetail card={flashcard} onTimerEnd={this.next} />}
+        componentWillUnmount () {
+            window.removeEventListener('keyup', this.handleKeyUp)
+        }
+
+        render () {
+            let flashcard = this.state.flashcards[this.state.currentIndex]
+            return (
+            <div>
+                <main>
+                <div className='container'>
+                    {flashcard &&
+                    <FlashcardDetail card={flashcard} onTimerEnd={this.next} />}
+                </div>
+                </main>
             </div>
-            </main>
-        </div>
-        )
+            )
+        }
     }
-}
+```
 
 </details>
 
@@ -233,12 +237,14 @@ Add on proptypes to the `Definition` functional component. In this case, the pro
 
 <details>
 
-import { object, number } from 'prop-types'
+    ```js
+    import { object, number } from 'prop-types'
 
-Definition.propTypes = {
-  def: object,
-  idx: number
-}
+    Definition.propTypes = {
+        def: object,
+        idx: number
+    }
+    ```
 
 </details>
 
