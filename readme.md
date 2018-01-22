@@ -138,8 +138,6 @@ Implement this new class syntax in the `FlashcardContainer` component.
 <details>
     <summary>Solution</summary>
 
-    <br>
-
     ```js
     class FlashcardContainer extends Component {
         state = {
