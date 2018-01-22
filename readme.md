@@ -346,6 +346,8 @@ Also add the following to your "scripts" object:
 Back in the terminal, run the following script:
 `$ npm run deploy`
 
+Your app should now be deployed on GitHub pages!
+
 ## You Do: Refactor React Translator
 For the rest of the class period, work on implementing the optimizations we learned about today to refactor the code for [React Translator](https://github.com/ga-wdi-exercises/react-translator/).
 
