@@ -20,13 +20,12 @@ With the person next to you, go though the code in the [Flashcards](https://git.
 <ul>
     <li>Functional components for stateless components</li>
     <li>URLs in a constants file</li>
-    <li></li>
 </ul>
 
 <b>Where to improve</b>
 <ul>
     <li>Move more to constants!</li>
-    <li>Add prop types and default props<li>
+    <li>Add prop types and default props</li>
     <li>Use consistent linting throughout</li>
 </ul>
 </details>
