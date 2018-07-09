@@ -2,7 +2,7 @@
 
 ## Learning Objectives
 
-- Implement React best practices in an application.
+- Learn some react & JS features that will help you when building larger applications.
 - Return to old code and notice what should be improved.
 - Deploy a React application.
 
@@ -113,6 +113,8 @@ Let's get them installed in our application.
 
 Let's first install the 'prop-types' package so we can import it.
 
+> the `prop-types` package used to be built into React, but now it's a separate module so we have to install it.
+
 `npm install prop-types`
 
 Then we'll require the proptypes in our file.
@@ -173,6 +175,7 @@ Instead of:
 ```js
 let def = props.def
 let idx = props.idx
+//...
 ```
 
 We can change the props variables in the `Definition` component to:
@@ -181,13 +184,13 @@ We can change the props variables in the `Definition` component to:
 let { def, idx } = props
 ```
 
-Now we have `def` and `idx` as variables in scope, but its a nicer syntax! Another advantage to doing it this way is if we end up adding props later, it's easier to extract them.
+Now we have `def` and `idx` as variables in scope, but its a nicer syntax! Another advantage to doing it this way is if we end up adding props later, it's easier to destructure and refer to them.
 
 ## Break (10 min / 1:10)
 
 ## Moving the API communication (30 min / 1:40)
 
-We've talked a lot about keeping our code DRY and separating concerns in our applications -- we will see how to do that with state later this week with Redux, but we can also do so with our API calls using our existing knowledge.
+We've talked a lot about keeping our code DRY and separating concerns in our applications -- you've already done some of this if you've worked with redux, but we can also do so with our API calls using our existing knowledge.
 
 Let's make a requests.js file next to our constants.js file.
 
@@ -199,9 +202,11 @@ In that file add the following:
 import axios from "axios"
 import { CLIENT_URL } from "./constants"
 
-export default axios
-  .get(`${CLIENT_URL}/api/words`)
-  .catch(err => console.log(err))
+let getRequest = axios
+  .get(`${CLIENT_URL}/api/words/`)
+  .catch(err => console.err(err))
+
+export { getRequest }
 ```
 
 Now, in the `FlashcardContainer`, let's require that request function.
@@ -255,7 +260,7 @@ this.setState(
 
 ## Environment variables & .env (20 min / 2:05)
 
-The purpose of environment variables is to provide our application different configurations depending on the environment that we're in. For example, we want to maybe make requests to `localhost` when we're running on our machine, but when our application is deployed we need to make a request to a heroku url like `slanderous-whale-8821.herokuapp.com`
+The purpose of environment variables is to provide our application different configurations depending on the environment that we're in. For example, we want to maybe make requests to `localhost` when we're running on our laptop, but when our application is deployed we need to make a request to a heroku url like `slanderous-whale-8821.herokuapp.com`
 
 It would be really great if we could do this automatically, without having to rewrite our code!
 
@@ -290,7 +295,7 @@ Create a file in the root folder called `.env`
 
 .env files follow a simple format of keys and values, separated by returns. Put some fake values in there that we'll use just as examples.
 
-CRA ignores any values that don't begin with `REACT_APP_` so we have to do that in this case, but normally we don't.
+CRA ignores any values that don't begin with `REACT_APP_` so we have to do that in this case, but normally we can call the keys whatever we like..
 
 ```
 REACT_APP_FAKE_ONE=thisisfake
@@ -301,19 +306,13 @@ REACT_APP_FAKE_TWO=haveAgoodDaySir
 
 Now anywhere in our app, we should have access to these values in the object: `process.env`.
 
-Heroku has [their own way](https://devcenter.heroku.com/articles/config-vars) of managing environment variables, but they're still accessible through `process.env` in our application.
+Heroku has [their own way](https://devcenter.heroku.com/articles/config-vars) of managing environment variables, but they're still accessible through `process.env` in our application. Therefore, as long as we define the same variables in both places, we don't have to write any additional code.
 
-### You do: Display the fake values (5 min)
+### You do: Display the fake values (5 min / 2:10)
 
 Figure out two different locations for where you'd want these fake values to render. Then render them.
 
-## Quick References
-
-- [Deploying a Node-Express-Mongoose App/API with Heroku & MLab](https://git.generalassemb.ly/ga-wdi-lessons/express-mongoose-mlab-deploy)
-
-## Multi-Server Approach
-
-In this class, we have used a multi-server or "micro-service" based deployment strategy for our MERN applications. This means that we will have a separate front-end and API running on two different servers. You will follow the mongoose and mlab instructions for creating your API. Make sure you send `res.json()` responses and include `cors`! Our front and back ends will not be physically attached via code, rather they will communicate through AJAX requests. We've already seen this in several lessons!
+## Deployments (rest of class)
 
 Our React application will be not be deployed using heroku - heroku only handles things on the backend. Since the code is static and doesn't interface with a database or need to be run inside of a `node` environment, we can use a static host.
 
@@ -323,5 +322,6 @@ Your task for the rest of class is to deploy this flashcard app to either one of
 
 ## Extra Resources
 
+- [Deploying a Node-Express-Mongoose App/API with Heroku & MLab](https://git.generalassemb.ly/ga-wdi-lessons/express-mongoose-mlab-deploy)
 - [Our Best Practices for Writing React Components](https://engineering.musefind.com/our-best-practices-for-writing-react-components-dec3eb5c3fc8)
 - [Building A MERN App](https://git.generalassemb.ly/ga-wdi-lessons/building-a-mern-app/blob/master/readme.md)
