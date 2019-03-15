@@ -1,21 +1,27 @@
+[![General Assembly Logo](https://camo.githubusercontent.com/1a91b05b8f4d44b5bbfb83abac2b0996d8e26c92/687474703a2f2f692e696d6775722e636f6d2f6b6538555354712e706e67)](https://generalassemb.ly/education/web-development-immersive)
+
 # Production Ready React
 
-## Learning Objectives
+## Objectives
 
-- Learn some react & JS features that will help you when building larger
-  applications.
-- Return to old code and notice what should be improved.
+By the end of this, developers should be able to:
 
-## Framing (5 min / 0:05)
+* Explain some of the advanced React and JavaScript features that help with
+  building a larger React application
+* Return to old code and notice what could be improved.
+
+## Introduction
 
 So far in this class we've seen a couple different React applications. In some
 cases, we simplified the code or used non-optimal practices in order to get
 through the material efficiently.
 
-Code is pretty much never perfect, and there are constantly new technologies
-coming out that you may want to integrate into your project. In this class, we
-will look at the flashcards application refactor it to fit best practices in
-React and implement cutting edge features.
+Code is never perfect and there are constantly new technologies and practices
+coming out that you may want to integrate into your project.
+
+In this class, we will review some new JavaScript and React practices and
+discuss how you could implement these into one of the React applications you
+built recently.
 
 ### Best practices
 
@@ -29,19 +35,15 @@ use in multiple places (like maybe a URL for an API that we're communicating
 with), we can put them in one file and just import them everywhere that we need
 them. It's easier than redefining them every time.
 
-#### Environment variables
+#### Functional vs Class Components
 
-If you remember during our express deployments to heroku, we had to modify a few
-things with how our code connected to mongoDB. For example, when our app is
-running locally, we connect to localhost. When running on heroku, we connect to
-the MLAB database. We do this by setting environment variables in different
-environments.
-
-#### Functional vs class components
-
-We briefly talked about this, but the main reason we might convert a class to a
-functional component is because it gives a slight performance boost to react.
+We talked about this very briefly. The main reason we might convert a class to
+a functional component is because it gives a slight performance boost to React.
 This really adds up when working on a large app.
+
+Functional components also make thinking/reasoning about our component tree
+easier and make managing state easier. Your goal should be to have as few
+components managing state as possible.
 
 #### Linting
 
@@ -53,6 +55,51 @@ You want every developer to follow the same standards, because it makes your
 project easier to read, easier to change, and it's easier to review commits when
 the only changes are related to functionality, instead of functionality +
 formatting all mixed together.
+
+#### Snippets
+
+Snippets are typically bundled into a package or library for your code editor
+and help you in generating code. The [Reactjs Code
+Snippts](https://github.com/xabikos/vscode-react) plugin is a really great one
+for VS Code.
+
+If you type `rcc` in VS Code and then hit `tab`, the snippet library will
+generate the following code for you:
+
+```js
+import React, { Component } from 'react';
+
+class Header extends Component {
+  render() {
+    return (
+      <div>
+
+      </div>
+    );
+  }
+}
+
+export default Header;
+```
+
+If you type `rsc` and hit `tab`, you'll generate the following code:
+
+```js
+import React from 'react';
+
+const test = () => {
+  return (
+    <div>
+
+    </div>
+  );
+};
+
+export default test;
+```
+
+These snippets are really helpful for generating boilerplate code and helping
+you work through a feature or idea quickly!
 
 #### Prop Types
 
@@ -67,49 +114,7 @@ receive as props.
 You can imagine that this is especially useful when working on larger
 applications, in an area of the codebase that you're unfamiliar with.
 
-<!--
-## Code Review (15 min / 0:20)
-
-> 10 min exercise, 5 min review
-
-Clone down the application, and switch to the solution branch.
-
-```sh
-git clone git@git.generalassemb.ly:dc-wdi-react-redux/flashcards.git
-cd flashcards
-code .
-git fetch
-git checkout solution
-```
-
-With the person next to you, go though the code in the [Flashcards](https://git.generalassemb.ly/ga-wdi-exercises/flashcards/tree/solution) application. Discuss what about it could be improved upon to meet the best practices we've learned in class. Also discuss which best practices the code already follows.
-
-<details>
-<summary>Solution</summary>
-<br>
-<b>Best Practices in Place</b>
-<ul>
-    <li>Functional components for stateless components</li>
-    <li>URLs in a constants file</li>
-</ul>
-
-<b>Where to improve</b>
-
-<ul>
-    <li>Move more to constants!</li>
-    <li>Add prop types and default props</li>
-    <li>Use consistent linting throughout</li>
-</ul>
-</details>
-
-A couple things to think about when reading over the code!
-
-1.  Which component is the biggest? Would you organize it differently? How?
-2.  Where is the application getting data from? What kind of data is it returning?
-3.  How does the data flow down into other components?
-4.  What kind of component is Definition? What about FlashcardDetail? Why use one type over the other? -->
-
-## Linting & Code formatting (10 min / 0:30)
+## Linting & Code Formatting
 
 There are a lot of options out there when it comes to checking your code for
 consistency and clarity. This process is called linting. If you've previously
@@ -151,20 +156,26 @@ Then choose `Format Document` by typing the first few letters and selecting it.
 If you have the default shortcut set up it might already work: `ctrl-shift-i` or
 `cmd-shift-i`
 
-You can also enable format on save by opening the vscode config file (`ctrl-,`
-or `cmd-,`) and adding:
+You can also enable format on save or on paste in your VS Code settings!
 
-```json
-{
-  "editor.formatOnSave": true
-}
-```
+### You Do: Install and Configure Prettier
 
-## Proptypes (20 minutes / 0:50)
+Install Prettier and spend some time setting it up in VS Code. If you like it,
+keep it. If you don't, uninstall it.
 
-Let's talk about proptypes in react.
+> For your upcoming group project, you and your group will want to get on the
+> same page about formatting your code. Prettier is by far the easiest way to do
+> that - just have everyone install it and set it up and you're done.
 
-- What are proptypes? What do we use them for?
+## Proptypes
+
+Let's talk about Proptypes in React. Open up the [documentation for
+PropTypes](https://reactjs.org/docs/typechecking-with-proptypes.html) and spend
+some time reading through it.
+
+When you finish, we'll discuss the following questions:
+
+- What are Proptypes? What do we use them for?
 - How do they make our code more stable?
 
 <details>
@@ -175,79 +186,63 @@ Let's talk about proptypes in react.
   </ul>
 </details>
 
-Let's get them installed in our application.
+## Default Props
 
-### We Do: Adding PropTypes to `FlashcardDetail`
+React also has the ability to set [Default
+Props](https://reactjs.org/docs/typechecking-with-proptypes.html#default-prop-values).
+This is really helpful when you're working with an API!
 
-> [Documentation](https://reactjs.org/docs/typechecking-with-proptypes.html#proptypes)
-> for reference.
+Take some time to read through the [documentation for Default
+Props](https://reactjs.org/docs/typechecking-with-proptypes.html#default-prop-values).
+When you finish, we'll discuss the following questions:
 
-Let's first install the 'prop-types' package so we can import it.
+* How do you set Default Props?
 
-> the `prop-types` package used to be built into React, but now it's a separate
-> module so we have to install it.
+<details>
+<summary>Solution</summary>
 
-`npm install prop-types`
-
-Then we'll require the proptypes in our file.
-
-`import PropTypes from 'prop-types'`
-
-> Note the capitalization!
-
-Then, within the file let's add a static property. Put this outside the class,
-before the export.
+There are two ways:
 
 ```js
-FlashcardDetail.propTypes = {
-  onTimerEnd: PropTypes.func
+class Greeting extends React.Component {
+  render() {
+    return (
+      <h1>Hello, {this.props.name}</h1>
+    );
+  }
 }
-```
 
-> **Note the capitalization!!!!!**
+// Specifies the default values for props:
+Greeting.defaultProps = {
+  name: 'Stranger'
+};
 
-This tells react that this prop should be a function.
+// Renders "Hello, Stranger":
+ReactDOM.render(
+  <Greeting />,
+  document.getElementById('example')
+);```
 
-We can also make props required!
+or:
 
 ```js
-FlashcardDetail.propTypes = {
-  onTimerEnd: PropTypes.func.isRequired
+class Greeting extends React.Component {
+  static defaultProps = {
+    name: 'stranger'
+  }
+
+  render() {
+    return (
+      <div>Hello, {this.props.name}</div>
+    )
+  }
 }
 ```
-
-React will yell at you if you have a propType marked as required and you don't
-give it a value when rendering that component.
-
-### You Do: Adding PropTypes to `Definition` (5 min)
-
-Add on proptypes to the `Definition` functional component. Consult the
-documentation to see what kinds of values they should be set to.
-
-Also, the way you add propTypes here won't be the same as in a class component.
-
-## Default Props (5 min / 0:55)
-
-While we are at it, let's add in the `defaultProps` just in case our parent
-component doesn't pass us the needed props.
-
-We don't have to import anything for this one, which is great.
-
-In the `Definition` component file, let's add the following:
-
-```js
-Definition.defaultProps = {
-  def: { definitions: [] },
-  idx: 0
-}
-```
-
-We shouldn't need one for the function in `FlashcardDetail` -- if we don't get
-the needed function our app should throw an error!
+</details>
 
 ## Destructuring Props (5 min / 1:00)
 
-While we are working with on improving our props, let's also destructure them so
+While we are working with improving our props, let's also destructure them so
 that they are easier to work with in our app.
 
 Instead of:
@@ -268,19 +263,15 @@ Now we have `def` and `idx` as variables in scope, but its a nicer syntax!
 Another advantage to doing it this way is if we end up adding props later, it's
 easier to destructure and refer to them.
 
-## Break (10 min / 1:10)
-
 ## Moving the API communication (30 min / 1:40)
 
 We've talked a lot about keeping our code DRY and separating concerns in our
-applications -- you've already done some of this if you've worked with redux,
-but we can also do so with our API calls using our existing knowledge.
+applications - you've already done some of this if you've worked with redux, but
+we can also do so with our API calls using our existing knowledge.
 
-Let's make a requests.js file next to our constants.js file.
+We could make a `requests.js` file next to our `constants.js` file.
 
-`$ touch requests.js`
-
-In that file add the following:
+In that file, we could add the following:
 
 ```js
 // requests.js
@@ -294,7 +285,7 @@ let getRequest = axios
 export { getRequest }
 ```
 
-Now, in the `FlashcardContainer`, let's require that request function.
+Now, in our components, let's require that `request` function.
 
 ```js
 import { getRequest } from "../requests"
@@ -308,12 +299,12 @@ other file!
 ```js
 componentDidMount() {
   //...
-  getRequest.then(response => this.setState({ flashcards: response.data }))
+  getRequest().then(response => this.setState({ whatever: response.data }))
   //...
 }
 ```
 
-## Expanding setState (5 min / 1:45)
+## Expanding `setState`
 
 This has already been implemented in this app, but you may have seen elsewhere
 that we called `setState` with an object instead of a function, like so:
@@ -326,6 +317,8 @@ toggleShow() {
   })
 }
 ```
+
+> This is a great shortcut for toggling a boolean value
 
 While in most cases this will work, the `setState` method is asynchronous. So
 this can lead to unintended consequences. Instead, call `setState` with a
@@ -350,6 +343,20 @@ this.setState(
 )
 ```
 
-## Extra Resources
+## Conclusion
 
-- [Our Best Practices for Writing React Components](https://engineering.musefind.com/our-best-practices-for-writing-react-components-dec3eb5c3fc8)
+As with anything code related, there are a million ways to solve a problem and they
+all have trade-offs. You will find developers who will say that [insert
+anything] is by far the best way to solve a problem, the reality is that there
+is no one, absolutely correct way to do something - there are best practices
+(plural), but no best practice (singular).
+
+## Additional Resources
+
+* [Our Best Practices for Writing React Components](https://engineering.musefind.com/our-best-practices-for-writing-react-components-dec3eb5c3fc8)
+
+## [License](LICENSE)
+
+1. All content is licensed under a CC­BY­NC­SA 4.0 license.
+1. All software code is licensed under GNU GPLv3. For commercial use or
+    alternative licensing, please contact legal@ga.co.
