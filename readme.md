@@ -30,14 +30,6 @@ use in multiple places (like maybe a URL for an API that we're communicating
 with), we can put them in one file and just import them everywhere that we need
 them. It's easier than redefining them every time.
 
-#### Environment variables
-
-If you remember during our express deployments to heroku, we had to modify a few
-things with how our code connected to mongoDB. For example, when our app is
-running locally, we connect to localhost. When running on heroku, we connect to
-the MLAB database. We do this by setting environment variables in different
-environments.
-
 #### Functional vs class components
 
 We briefly talked about this, but the main reason we might convert a class to a
@@ -68,7 +60,6 @@ receive as props.
 You can imagine that this is especially useful when working on larger
 applications, in an area of the codebase that you're unfamiliar with.
 
-<!--
 ## Code Review (15 min / 0:20)
 
 > 10 min exercise, 5 min review
@@ -79,36 +70,26 @@ Clone down the application, and switch to the solution branch.
 git clone git@git.generalassemb.ly:dc-wdi-react-redux/flashcards.git
 cd flashcards
 code .
-git fetch
 git checkout solution
 ```
 
-With the person next to you, go though the code in the [Flashcards](https://git.generalassemb.ly/ga-wdi-exercises/flashcards/tree/solution) application. Discuss what about it could be improved upon to meet the best practices we've learned in class. Also discuss which best practices the code already follows.
+With the person next to you, go though the code in the
+[Flashcards](https://git.generalassemb.ly/dc-wdi-react-redux/flashcards/tree/solution)
+solution branch.
 
-<details>
-<summary>Solution</summary>
-<br>
-<b>Best Practices in Place</b>
-<ul>
-    <li>Functional components for stateless components</li>
-    <li>URLs in a constants file</li>
-</ul>
+What stands out to you?
 
-<b>Where to improve</b>
-
-<ul>
-    <li>Move more to constants!</li>
-    <li>Add prop types and default props</li>
-    <li>Use consistent linting throughout</li>
-</ul>
-</details>
-
-A couple things to think about when reading over the code!
+A couple things to think about when reading over the code:
 
 1.  Which component is the biggest? Would you organize it differently? How?
-2.  Where is the application getting data from? What kind of data is it returning?
+2.  Where is the application getting data from? What kind of data is it
+    returning?
 3.  How does the data flow down into other components?
-4.  What kind of component is Definition? What about FlashcardDetail? Why use one type over the other? -->
+4.  What kind of component is Definition? What about FlashcardDetail? Why use
+    one type over the other?
+5.  Look in `FlashcardDetail.js` and find the `decrementTimer` method. Look at
+    the `setState` call in it - how is it different from what you've seen
+    before?
 
 ## Linting & Code formatting (10 min / 0:30)
 
@@ -123,23 +104,26 @@ Here are a few:
 - [Standard JS](https://standardjs.com/)
 - [JSHint](http://jshint.com/)
 
+You **do not want** to have more than one of these installed at a time. Best
+case scenario, you start to ignore all the highlighting. Worst case, it actually
+creates extra work for you to figure out what the problems are.
+
 The one I prefer though is called
 [prettier](https://prettier.io/docs/en/install.html).
 
-I like it for a number of reasons.
+I like it for a number of reasons:
 
 - You can install it globally (using npm install -g) or locally for each
   project.
 - It's opinionated, which means it believes that doing things a specific way is
   the right way. That also means that you don't spend a ton of time configuring
   it (like ESLint).
-- It can format your code automatically every time you save. This saves a ton of
-  time, but can also be annoying.
+- It can format your code automatically every time you save. This saves some
+  thinking, but can also be annoying.
+- It doesn't highlight your code with a bunch of red squigglies. It just formats
+  when you want it to.
 
 If you want to install prettier, you have to do two things:
-
-> **Note: MAKE SURE YOU UNINSTALL OTHER CODE FORMATTERS BEFORE INSTALLING
-> PRETTIER OR YOU'LL HAVE A BAD TIME**
 
 1.  `npm install -g prettier`
 2.  Install the editor extension for your editor. If you're using VSCode use
@@ -153,15 +137,87 @@ If you have the default shortcut set up it might already work: `ctrl-shift-i` or
 `cmd-shift-i`
 
 You can also enable format on save by opening the vscode config file (`ctrl-,`
-or `cmd-,`) and adding:
+or `cmd-,`) and searching for "Format on save". Check the box to enable it.
+
+If you want to edit the config file manually:
 
 ```json
 {
-	"editor.formatOnSave": true
+  "editor.formatOnSave": true
 }
 ```
 
-## Proptypes (20 minutes / 0:50)
+## Functional vs Class components (15 min / 0:45)
+
+In react, there are several ways we can write components. The way we've been
+doing it has been to make a Class component for everything. But we don't
+necessarily want that on larger applications.
+
+Look at the `Definition.js` component:
+
+```js
+import React, { Component } from "react"
+
+const COLORS = ["#673ab7", "#2196f3", "#26a69a", "#e91e63"]
+
+class Definition extends Component {
+  constructor(props) {
+    super(props)
+
+    this.styles = {
+      color: "white",
+      padding: "10px",
+      backgroundColor: COLORS[props.idx]
+    }
+  }
+
+  render() {
+    return (
+      <div className="card text-center" style={this.styles}>
+        <h5>Definition {this.props.idx + 1}</h5>
+        <p>{this.props.def.definitions[0]}</p>
+      </div>
+    )
+  }
+}
+
+export default Definition
+```
+
+Notice that there's no state here. We're simply taking some inputs (props) and
+returning something (html). If we don't have any state, and we're not using
+lifecycle methods, we can convert this whole component to a function!
+
+The advantage to doing this is mostly in performance, which matters on larger
+applications. Since react doesn't have to instantiate the class, it saves some
+overhead and helps the app run better.
+
+Start by rewriting the line with `class` in it:
+
+```js
+const Definition = props => {
+  /* */
+}
+```
+
+Note that we have to provide `props` as an argument. Under the hood, react is
+just turning all components into functions. So to keep our props, we give the
+function an argument.
+
+A couple things that we have to adjust now:
+
+- Change all the props references from `this.props` to just `props`
+- Get rid of `this.styles` and make it just `styles`
+- Remove the `{ Component }` from the import at the top of the file. Leave
+  `React` though!
+
+Once you've done that, make sure all your variables are properly scoped so you
+don't run into any errors. Check the solution branch if you get stuck.
+
+> When creating a new functional component, you can use the `rsc` snippet
+> instead of `rcc`.
+
+## Proptypes (10 minutes / 0:55)
 
 Let's talk about proptypes in react.
 
@@ -201,7 +257,8 @@ before the export.
 
 ```js
 FlashcardDetail.propTypes = {
-	onTimerEnd: PropTypes.func
+  onTimerEnd: PropTypes.func,
+  card: PropTypes.object
 }
 ```
 
@@ -213,21 +270,20 @@ We can also make props required!
 
 ```js
 FlashcardDetail.propTypes = {
-	onTimerEnd: PropTypes.func.isRequired
+  onTimerEnd: PropTypes.func.isRequired,
+  card: PropTypes.object
 }
 ```
 
 React will yell at you if you have a propType marked as required and you don't
 give it a value when rendering that component.
 
-### You Do: Adding PropTypes to `Definition` (5 min)
+### You Do: Adding PropTypes to `Definition` (5 min / 0:55)
 
-Add on proptypes to the `Definition` functional component. Consult the
-documentation to see what kinds of values they should be set to.
+Add on proptypes to the `Definition` component. Consult the documentation to see
+what kinds of values they should be set to.
 
-Also, the way you add propTypes here won't be the same as in a class component.
-
-## Default Props (5 min / 0:55)
+## Default Props (5 min / 1:00)
 
 While we are at it, let's add in the `defaultProps` just in case our parent
 component doesn't pass us the needed props.
@@ -238,15 +294,15 @@ In the `Definition` component file, let's add the following:
 
 ```js
 Definition.defaultProps = {
-	def: { definitions: [] },
-	idx: 0
+  def: { definitions: ["test definition"] },
+  idx: 0
 }
 ```
 
-We shouldn't need one for the function in `FlashcardDetail` -- if we don't get
-the needed function our app should throw an error!
+We shouldn't need defaultProps for the function in `FlashcardDetail` -- if we
+don't get the needed function our app should throw an error!
 
-## Destructuring Props (5 min / 1:00)
+## Destructuring Props (5 min / 1:05)
 
 While we are working with on improving our props, let's also destructure them so
 that they are easier to work with in our app.
@@ -269,9 +325,22 @@ Now we have `def` and `idx` as variables in scope, but its a nicer syntax!
 Another advantage to doing it this way is if we end up adding props later, it's
 easier to destructure and refer to them.
 
-## Break (10 min / 1:10)
+## Break (10 min / 1:15)
 
-## Moving the API communication (30 min / 1:40)
+## Constants (10 min / 1:25)
+
+One thing we can do to better scale our application is move any values that are
+going to be reused into a shared location. That way we can just import them when needed.
+
+This is most commonly used for things like shared URLs, but this pattern can apply to anything.
+
+* Create a file called `constants.js`
+* Cut and paste the urls that axios is using into it
+* Make a variable and export it
+* Import that variable back into the original file, and put it back into the axios call
+
+
+## Moving the API communication (30 min / 1:55)
 
 We've talked a lot about keeping our code DRY and separating concerns in our
 applications -- you've already done some of this if you've worked with redux,
@@ -289,8 +358,8 @@ import axios from "axios"
 import { CLIENT_URL } from "./constants"
 
 let getRequest = axios
-	.get(`${CLIENT_URL}/api/words/`)
-	.catch(err => console.err(err))
+  .get(`${CLIENT_URL}/api/words/`)
+  .catch(err => console.err(err))
 
 export { getRequest }
 ```
@@ -334,7 +403,7 @@ function so that the previous state is preserved.
 
 ```js
 this.setState(prevState => ({
-	show: !prevState.show
+  show: !prevState.show
 }))
 ```
 
@@ -344,87 +413,12 @@ method, like so:
 
 ```js
 this.setState(
-	prevState => ({
-		show: !prevState.show
-	}),
-	() => console.log("hello world")
+  prevState => ({
+    show: !prevState.show
+  }),
+  () => console.log("hello world")
 )
 ```
-
-# Deployment
-
-## Environment variables & .env (20 min / 2:05)
-
-The purpose of environment variables is to provide our application different
-configurations depending on the environment that we're in. For example, we want
-to maybe make requests to `localhost` when we're running on our laptop, but when
-our application is deployed we need to make a request to a heroku url like
-`slanderous-whale-8821.herokuapp.com`
-
-It would be really great if we could do this automatically, without having to
-rewrite our code!
-
-**Introducing Environment variables**
-
-If you remember back to the olden days, when we did our first heroku deployment,
-we did something like this in the command line:
-
-```sh
-EXPORT MLAB_URL="whatever.com"
-```
-
-Then we were able to access that MLAB_URL variable inside of our node
-application!
-
-> How did we do that??
-
-<details>
-  <summary>Answer</summary>
-
-```js
-const MLAB_URL = process.env.MLAB_URL
-```
-
-</details>
-
-Instead of having to type out this export command every time, we can put it all
-in a file.
-
-Because we're using Create React App, it handles this for us. All we have to do
-is create a file. If we were on a back end app like express, or not using CRA,
-we could use the fantastic [dotenv package](https://github.com/motdotla/dotenv).
-
-Create a file in the root folder called `.env`
-
-**.env format**
-
-.env files follow a simple format of keys and values, separated by returns. Put
-some fake values in there that we'll use just as examples.
-
-CRA ignores any values that don't begin with `REACT_APP_` so we have to do that
-in this case, but normally we can call the keys whatever we like..
-
-```
-REACT_APP_FAKE_ONE=thisisfake
-REACT_APP_FAKE_TWO=haveAgoodDaySir
-```
-
-> Note: Normally you do NOT want to include your .env files in version control,
-> especially if they contain sensitive information, like API keys or database
-> passwords. So make sure you add .env to your .gitignore file.
-
-Now anywhere in our app, we should have access to these values in the object:
-`process.env`.
-
-Heroku has [their own way](https://devcenter.heroku.com/articles/config-vars) of
-managing environment variables, but they're still accessible through
-`process.env` in our application. Therefore, as long as we define the same
-variables in both places, we don't have to write any additional code.
-
-### You do: Display the fake values (5 min / 2:10)
-
-Figure out two different locations for where you'd want these fake values to
-render. Then render them.
 
 ## Deployments (rest of class)
 
@@ -439,6 +433,12 @@ is called [surge](http://surge.sh/).
 Your task for the rest of class is to deploy this flashcard app to either one of
 these sites. There are lots of tutorials! Use your google-fu to find the
 resources you need to deploy to.
+
+The main ideas are:
+
+* Make a static build
+* Deploy that build to a host
+* Verify your urls all work!
 
 ## Extra Resources
 
