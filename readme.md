@@ -23,40 +23,7 @@ In this class, we will review some new JavaScript and React practices and
 discuss how you could implement these into one of the React applications you
 built recently.
 
-### Best practices
-
-Here are a few practices that you should (or sometimes have to) follow when
-deploying an application on the internet.
-
-#### Shared Constants
-
-If we have a set of `constants` (really, any type of value) that we're going to
-use in multiple places (like maybe a URL for an API that we're communicating
-with), we can put them in one file and just import them everywhere that we need
-them. It's easier than redefining them every time.
-
-#### Functional vs Class Components
-
-We talked about this very briefly. The main reason we might convert a class to
-a functional component is because it gives a slight performance boost to React.
-This really adds up when working on a large app.
-
-Functional components also make thinking/reasoning about our component tree
-easier and make managing state easier. Your goal should be to have as few
-components managing state as possible.
-
-#### Linting
-
-Linting means using a tool (like Prettier, Standard JS, or ESLint) to keep your
-code clean.
-
-This matters especially when multiple people are working on the same project.
-You want every developer to follow the same standards, because it makes your
-project easier to read, easier to change, and it's easier to review commits when
-the only changes are related to functionality, instead of functionality +
-formatting all mixed together.
-
-#### Snippets
+## Snippets
 
 Snippets are typically bundled into a package or library for your code editor
 and help you in generating code. The [Reactjs Code
@@ -128,19 +95,6 @@ A couple things to think about when reading over the code:
 These snippets are really helpful for generating boilerplate code and helping
 you work through a feature or idea quickly!
 
-#### Prop Types
-
-React has an extra feature called `propTypes` that we can install and use in our
-components.
-
-Adding prop types is really something that we do for consistency internally. It
-has no effect on the functionality of our application, it's simply to signal to
-various developers working on your team what each component is allowed to
-receive as props.
-
-You can imagine that this is especially useful when working on larger
-applications, in an area of the codebase that you're unfamiliar with.
-
 ## Linting & Code Formatting
 
 There are a lot of options out there when it comes to checking your code for
@@ -197,7 +151,7 @@ If you want to edit the config file manually:
 }
 ```
 
-## Functional vs Class components (15 min / 0:45)
+## Functional vs Class Components (15 min / 0:45)
 
 In react, there are several ways we can write components. The way we've been
 doing it has been to make a Class component for everything. But we don't
@@ -268,15 +222,6 @@ don't run into any errors. Check the solution branch if you get stuck.
 > instead of `rcc`.
 
 You can also enable format on save or on paste in your VS Code settings!
-
-### You Do: Install and Configure Prettier
-
-Install Prettier and spend some time setting it up in VS Code. If you like it,
-keep it. If you don't, uninstall it.
-
-> For your upcoming group project, you and your group will want to get on the
-> same page about formatting your code. Prettier is by far the easiest way to do
-> that - just have everyone install it and set it up and you're done.
 
 ## Proptypes
 
