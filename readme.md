@@ -285,16 +285,20 @@ class Greeting extends React.Component {
   }
 }
 
+```js
 // Specifies the default values for props:
 Greeting.defaultProps = {
   name: 'Stranger'
 };
+```
 
+```js
 // Renders "Hello, Stranger":
 ReactDOM.render(
   <Greeting />,
   document.getElementById('example')
-);```
+);
+```
 
 or:
 
@@ -307,6 +311,8 @@ Definition.defaultProps = {
 
 We shouldn't need defaultProps for the function in `FlashcardDetail` -- if we
 don't get the needed function our app should throw an error!
+
+```js
 class Greeting extends React.Component {
   static defaultProps = {
     name: 'stranger'
