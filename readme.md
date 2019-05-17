@@ -6,9 +6,8 @@
 
 By the end of this, developers should be able to:
 
-* Explain some of the advanced React and JavaScript features that help with
+- Explain some of the advanced React and JavaScript features that help with
   building a larger React application
-* Return to old code and notice what could be improved.
 
 ## Introduction
 
@@ -23,48 +22,7 @@ In this class, we will review some new JavaScript and React practices and
 discuss how you could implement these into one of the React applications you
 built recently.
 
-## Snippets
-
-Snippets are typically bundled into a package or library for your code editor
-and help you in generating code. The [Reactjs Code
-Snippts](https://github.com/xabikos/vscode-react) plugin is a really great one
-for VS Code.
-
-If you type `rcc` in VS Code and then hit `tab`, the snippet library will
-generate the following code for you:
-
-```js
-import React, { Component } from 'react';
-
-class Header extends Component {
-  render() {
-    return (
-      <div>
-
-      </div>
-    );
-  }
-}
-
-export default Header;
-```
-
-If you type `rsc` and hit `tab`, you'll generate the following code:
-
-```js
-import React from 'react';
-
-const test = () => {
-  return (
-    <div>
-
-    </div>
-  );
-};
-
-export default test;
-```
-
+## Setup & Code Review (15 min / 0:20)
 
 ```sh
 git clone git@git.generalassemb.ly:dc-wdi-react-redux/flashcards.git
@@ -91,9 +49,43 @@ A couple things to think about when reading over the code:
     the `setState` call in it - how is it different from what you've seen
     before?
 
+## Snippets
+
+Snippets are typically bundled into a package or library for your code editor
+and help you in generating code. The
+[Reactjs Code Snippts](https://github.com/xabikos/vscode-react) plugin is a
+really great one for VS Code.
+
+If you type `rcc` in VS Code and then hit `tab`, the snippet library will
+generate the following code for you:
+
+```js
+import React, { Component } from "react"
+
+class Header extends Component {
+  render() {
+    return <div />
+  }
+}
+
+export default Header
+```
+
+If you type `rsc` and hit `tab`, you'll generate the following code:
+
+```js
+import React from "react"
+
+const test = () => {
+  return <div />
+}
+
+export default test
+```
 
 These snippets are really helpful for generating boilerplate code and helping
-you work through a feature or idea quickly!
+you work through a feature or idea quickly! There are a lot of other options for
+snippets in there, check out the docs.
 
 ## Linting & Code Formatting
 
@@ -221,116 +213,10 @@ don't run into any errors. Check the solution branch if you get stuck.
 > When creating a new functional component, you can use the `rsc` snippet
 > instead of `rcc`.
 
-You can also enable format on save or on paste in your VS Code settings!
+## Destructuring Props (5 min / 0:50)
 
-## Proptypes
-
-Let's talk about Proptypes in React. Open up the [documentation for
-PropTypes](https://reactjs.org/docs/typechecking-with-proptypes.html) and spend
-some time reading through it.
-
-When you finish, we'll discuss the following questions:
-
-- What are Proptypes? What do we use them for?
-- How do they make our code more stable?
-
-<details>
-  <summary>Solution</summary>
-  <ul>
-    <li>Proptypes loosely enforce type checking in React components</li>
-    <li>They make our code more stable because we know the data types of our props!</li>
-  </ul>
-</details>
-
-## Default Props
-
-React also has the ability to set [Default
-Props](https://reactjs.org/docs/typechecking-with-proptypes.html#default-prop-values).
-This is really helpful when you're working with an API!
-
-```js
-FlashcardDetail.propTypes = {
-  onTimerEnd: PropTypes.func,
-  card: PropTypes.object
-}
-```
-* How do you set Default Props?
-
-<details>
-<summary>Solution</summary>
-
-There are two ways:
-
-```js
-FlashcardDetail.propTypes = {
-  onTimerEnd: PropTypes.func.isRequired,
-  card: PropTypes.object
-}
-```
-
-React will yell at you if you have a propType marked as required and you don't
-give it a value when rendering that component.
-
-### You Do: Adding PropTypes to `Definition` (5 min / 0:55)
-
-Add on proptypes to the `Definition` component. Consult the documentation to see
-what kinds of values they should be set to.
-
-## Default Props (5 min / 1:00)
-class Greeting extends React.Component {
-  render() {
-    return (
-      <h1>Hello, {this.props.name}</h1>
-    );
-  }
-}
-
-```js
-// Specifies the default values for props:
-Greeting.defaultProps = {
-  name: 'Stranger'
-};
-```
-
-```js
-// Renders "Hello, Stranger":
-ReactDOM.render(
-  <Greeting />,
-  document.getElementById('example')
-);
-```
-
-or:
-
-```js
-Definition.defaultProps = {
-  def: { definitions: ["test definition"] },
-  idx: 0
-}
-```
-
-We shouldn't need defaultProps for the function in `FlashcardDetail` -- if we
-don't get the needed function our app should throw an error!
-
-```js
-class Greeting extends React.Component {
-  static defaultProps = {
-    name: 'stranger'
-  }
-
-  render() {
-    return (
-      <div>Hello, {this.props.name}</div>
-    )
-  }
-}
-```
-</details>
-
-## Destructuring Props (5 min / 1:05)
-
-While we are working with improving our props, let's also destructure them so
-that they are easier to work with in our app.
+While we are working with improving our components, let's also destructure our
+props so that they are easier to work with in our app.
 
 Instead of:
 
@@ -350,21 +236,91 @@ Now we have `def` and `idx` as variables in scope, but its a nicer syntax!
 Another advantage to doing it this way is if we end up adding props later, it's
 easier to destructure and refer to them.
 
-## Break (10 min / 1:15)
+This is useful when working with a whole bunch of props, or for when you're
+rendering a lot of complicated html. It saves a fair amount of typing. You can
+do this with any object of course, not just props.
 
-## Constants (10 min / 1:25)
+## Proptypes (10 min / 1:00)
+
+Let's talk about Proptypes in React. Open up the
+[documentation for PropTypes](https://reactjs.org/docs/typechecking-with-proptypes.html)
+and spend some time reading through it.
+
+When you finish, we'll discuss the following questions:
+
+- What are Proptypes? What do we use them for?
+- How do they make our code more stable?
+
+<details>
+  <summary>Solution</summary>
+  <ul>
+    <li>Proptypes loosely enforce type checking in React components</li>
+    <li>They make our code more stable because we know the data types of our props!</li>
+  </ul>
+</details>
+
+```js
+FlashcardDetail.propTypes = {
+  onTimerEnd: PropTypes.func,
+  card: PropTypes.object
+}
+```
+
+We can also make props required!
+
+```js
+FlashcardDetail.propTypes = {
+  onTimerEnd: PropTypes.func.isRequired,
+  card: PropTypes.object
+}
+```
+
+React will yell at you if you have a propType marked as required and you don't
+give it a value when rendering that component.
+
+### You Do: Adding PropTypes to `Definition` (5 min / 1:05)
+
+Add some proptypes to the `Definition` component. Consult the documentation to
+see what kinds of values they should be set to.
+
+## Default Props (5 min / 1:10)
+
+React also has the ability to set
+[Default Props](https://reactjs.org/docs/typechecking-with-proptypes.html#default-prop-values).
+This is really helpful when you're working with an API and want to make handling
+the lifecycle methods easier!
+
+Default props are defined very much like propTypes. You don't need to import
+anything though, which is nice.
+
+```js
+Definition.defaultProps = {
+  def: { definitions: ["test definition"] },
+  idx: 0
+}
+```
+
+We shouldn't need defaultProps for the function in `FlashcardDetail` -- if we
+don't get the needed function our app should throw an error!
+
+## Break (10 min / 1:20)
+
+## Constants (10 min / 1:30)
 
 One thing we can do to better scale our application is move any values that are
-going to be reused into a shared location. That way we can just import them when needed.
+going to be reused into a shared location. That way we can just import them when
+needed.
 
-This is most commonly used for things like shared URLs, but this pattern can apply to anything.
+This is most commonly used for things like shared URLs, but this pattern can
+apply to anything.
 
-* Create a file called `constants.js`
-* Cut and paste the urls that axios is using into it
-* Make a variable and export it
-* Import that variable back into the original file, and put it back into the axios call
+- Create a file called `constants.js`
+- Cut and paste the urls that axios is using into it
+- Make a variable and export it
+- Import that variable back into the original file, and put it back into the
+  axios call
 
-## Moving the API communication (30 min / 1:55)
+## Moving the API communication (30 min / 2:00)
 
 We've talked a lot about keeping our code DRY and separating concerns in our
 applications - you've already done some of this if you've worked with redux, but
@@ -444,30 +400,62 @@ this.setState(
 )
 ```
 
-## Conclusion
+## Deployment (rest of class)
 
-As with anything code related, there are a million ways to solve a problem and they
-all have trade-offs. You will find developers who will say that [insert
-anything] is by far the best way to solve a problem, the reality is that there
-is no one, absolutely correct way to do something - there are best practices
-(plural), but no best practice (singular).
+Once you're done building your react app it's time to push it to the internet!
+Luckily, this is much easier than dealing with heroku. In fact, you shouldn't
+deploy it to heroku.
 
-## Additional Resources
+`create-react-app` has a very nice `build` command already included. It works
+similarly to parcel's `build` command, by generating a folder with some static
+html/css/js files. That folder can then be shipped off to a server for your
+viewing pleasure!
 
-* [Our Best Practices for Writing React Components](https://engineering.musefind.com/our-best-practices-for-writing-react-components-dec3eb5c3fc8)
 
+This is as simple as running `npm run build` in your react project. When you do, you'll see some **incredibly helpful** output like this: 
 
-## Deployment
+```
+Creating an optimized production build...
+Compiled successfully.
 
- (Write more here ) 
-The main ideas are:
+File sizes after gzip:
 
-* Make a static build
-* Deploy that build to a host
-* Verify your urls all work!
+  41.27 KB        build/static/js/2.94623b3e.chunk.js
+  1.29 KB (-8 B)  build/static/js/main.f184d0bf.chunk.js
+  761 B           build/static/js/runtime~main.fdfcfda2.js
+  116 B           build/static/css/main.2c94c171.chunk.css
+
+The project was built assuming it is hosted at the server root.
+You can control this with the homepage field in your package.json.
+For example, add this to build it for GitHub Pages:
+
+  "homepage" : "http://myname.github.io/myapp",
+```
+
+If you want to deploy it to github pages, it even tells you how!
+
+An even easier thing is to use `https://surge.sh/` for deployments. It's literally two steps.
+
+```
+$ npm install --global surge
+# in your project directory, just run:
+$ surge
+```
+
+So cd to your generated `build` folder, and run `surge`. That's it!
+
+> You may have to create a username and password first.
+
+## Linktree
+
+- https://surge.sh/
+- https://reactjs.org/docs/typechecking-with-proptypes.html
+- https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0
+- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment
+
 
 ## LICENSE
 
 1. All content is licensed under a CC­BY­NC­SA 4.0 license.
 1. All software code is licensed under GNU GPLv3. For commercial use or
-    alternative licensing, please contact legal@ga.co.
+   alternative licensing, please contact legal@ga.co.
