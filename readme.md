@@ -22,33 +22,6 @@ In this class, we will review some new JavaScript and React practices and
 discuss how you could implement these into one of the React applications you
 built recently.
 
-## Setup & Code Review (15 min / 0:20)
-
-```sh
-git clone git@git.generalassemb.ly:dc-wdi-react-redux/flashcards.git
-cd flashcards
-code .
-git checkout solution
-```
-
-With the person next to you, go though the code in the
-[Flashcards](https://git.generalassemb.ly/dc-wdi-react-redux/flashcards/tree/solution)
-solution branch.
-
-What stands out to you?
-
-A couple things to think about when reading over the code:
-
-1.  Which component is the biggest? Would you organize it differently? How?
-2.  Where is the application getting data from? What kind of data is it
-    returning?
-3.  How does the data flow down into other components?
-4.  What kind of component is Definition? What about FlashcardDetail? Why use
-    one type over the other?
-5.  Look in `FlashcardDetail.js` and find the `decrementTimer` method. Look at
-    the `setState` call in it - how is it different from what you've seen
-    before?
-
 ## Snippets
 
 Snippets are typically bundled into a package or library for your code editor
@@ -143,76 +116,6 @@ If you want to edit the config file manually:
 }
 ```
 
-## Functional vs Class Components (15 min / 0:45)
-
-In react, there are several ways we can write components. The way we've been
-doing it has been to make a Class component for everything. But we don't
-necessarily want that on larger applications.
-
-Look at the `Definition.js` component:
-
-```js
-import React, { Component } from "react"
-
-const COLORS = ["#673ab7", "#2196f3", "#26a69a", "#e91e63"]
-
-class Definition extends Component {
-  constructor(props) {
-    super(props)
-
-    this.styles = {
-      color: "white",
-      padding: "10px",
-      backgroundColor: COLORS[props.idx]
-    }
-  }
-
-  render() {
-    return (
-      <div className="card text-center" style={this.styles}>
-        <h5>Definition {this.props.idx + 1}</h5>
-        <p>{this.props.def.definitions[0]}</p>
-      </div>
-    )
-  }
-}
-
-export default Definition
-```
-
-Notice that there's no state here. We're simply taking some inputs (props) and
-returning something (html). If we don't have any state, and we're not using
-lifecycle methods, we can convert this whole component to a function!
-
-The advantage to doing this is mostly in performance, which matters on larger
-applications. Since react doesn't have to instantiate the class, it saves some
-overhead and helps the app run better.
-
-Start by rewriting the line with `class` in it:
-
-```js
-const Definition = props => {
-  /* */
-}
-```
-
-Note that we have to provide `props` as an argument. Under the hood, react is
-just turning all components into functions. So to keep our props, we give the
-function an argument.
-
-A couple things that we have to adjust now:
-
-- Change all the props references from `this.props` to just `props`
-- Get rid of `this.styles` and make it just `styles`
-- Remove the `{ Component }` from the import at the top of the file. Leave
-  `React` though!
-
-Once you've done that, make sure all your variables are properly scoped so you
-don't run into any errors. Check the solution branch if you get stuck.
-
-> When creating a new functional component, you can use the `rsc` snippet
-> instead of `rcc`.
-
 ## Destructuring Props (5 min / 0:50)
 
 While we are working with improving our components, let's also destructure our
@@ -240,71 +143,6 @@ This is useful when working with a whole bunch of props, or for when you're
 rendering a lot of complicated html. It saves a fair amount of typing. You can
 do this with any object of course, not just props.
 
-## Proptypes (10 min / 1:00)
-
-Let's talk about Proptypes in React. Open up the
-[documentation for PropTypes](https://reactjs.org/docs/typechecking-with-proptypes.html)
-and spend some time reading through it.
-
-When you finish, we'll discuss the following questions:
-
-- What are Proptypes? What do we use them for?
-- How do they make our code more stable?
-
-<details>
-  <summary>Solution</summary>
-  <ul>
-    <li>Proptypes loosely enforce type checking in React components</li>
-    <li>They make our code more stable because we know the data types of our props!</li>
-  </ul>
-</details>
-
-```js
-FlashcardDetail.propTypes = {
-  onTimerEnd: PropTypes.func,
-  card: PropTypes.object
-}
-```
-
-We can also make props required!
-
-```js
-FlashcardDetail.propTypes = {
-  onTimerEnd: PropTypes.func.isRequired,
-  card: PropTypes.object
-}
-```
-
-React will yell at you if you have a propType marked as required and you don't
-give it a value when rendering that component.
-
-### You Do: Adding PropTypes to `Definition` (5 min / 1:05)
-
-Add some proptypes to the `Definition` component. Consult the documentation to
-see what kinds of values they should be set to.
-
-## Default Props (5 min / 1:10)
-
-React also has the ability to set
-[Default Props](https://reactjs.org/docs/typechecking-with-proptypes.html#default-prop-values).
-This is really helpful when you're working with an API and want to make handling
-the lifecycle methods easier!
-
-Default props are defined very much like propTypes. You don't need to import
-anything though, which is nice.
-
-```js
-Definition.defaultProps = {
-  def: { definitions: ["test definition"] },
-  idx: 0
-}
-```
-
-We shouldn't need defaultProps for the function in `FlashcardDetail` -- if we
-don't get the needed function our app should throw an error!
-
-## Break (10 min / 1:20)
-
 ## Constants (10 min / 1:30)
 
 One thing we can do to better scale our application is move any values that are
@@ -320,131 +158,28 @@ apply to anything.
 - Import that variable back into the original file, and put it back into the
   axios call
 
-## Moving the API communication (30 min / 2:00)
 
-We've talked a lot about keeping our code DRY and separating concerns in our
-applications - you've already done some of this if you've worked with redux, but
-we can also do so with our API calls using our existing knowledge.
-
-We could make a `requests.js` file next to our `constants.js` file.
-
-In that file, we could add the following:
-
-```js
-// requests.js
-import axios from "axios"
-import { CLIENT_URL } from "./constants"
-
-let getRequest = axios
-  .get(`${CLIENT_URL}/api/words/`)
-  .catch(err => console.err(err))
-
-export { getRequest }
-```
-
-Now, in our components, let's require that `request` function.
-
-```js
-import { getRequest } from "../requests"
-// get rid of the { CLIENT_URL } import since we dont need it anymore
-// also get rid of axios import
-```
-
-Now we can replace the axios call with our nicely extracted function from the
-other file!
-
-```js
-componentDidMount() {
-  //...
-  getRequest().then(response => this.setState({ whatever: response.data }))
-  //...
-}
-```
-
-## Expanding `setState`
+## Using `prevState`
 
 This has already been implemented in this app, but you may have seen elsewhere
-that we called `setState` with an object instead of a function, like so:
+that we called state updating functions with an object instead of a function, like so:
 
 ```js
-// FlashcardDetail.js
-toggleShow() {
-  this.setState({
-    show: !state.show
-  })
-}
+  let [show, updateShow] = useState(true)
+  updateShow(!show)
 ```
 
 > This is a great shortcut for toggling a boolean value
 
-While in most cases this will work, the `setState` method is asynchronous. So
-this can lead to unintended consequences. Instead, call `setState` with a
+While in most cases this will work, the `updateShow` method is asynchronous. So
+this can lead to unintended consequences. Instead, call `updateShow` with a
 function so that the previous state is preserved.
 
 ```js
-this.setState(prevState => ({
-  show: !prevState.show
-}))
+updateState(prevState => {
+  return !show
+})
 ```
-
-Also, if you want to call a function after the state is updated, do so with a
-callback instead of just calling the function after calling the `setState`
-method, like so:
-
-```js
-this.setState(
-  prevState => ({
-    show: !prevState.show
-  }),
-  () => console.log("hello world")
-)
-```
-
-## Deployment (rest of class)
-
-Once you're done building your react app it's time to push it to the internet!
-Luckily, this is much easier than dealing with heroku. In fact, you shouldn't
-deploy it to heroku.
-
-`create-react-app` has a very nice `build` command already included. It works
-similarly to parcel's `build` command, by generating a folder with some static
-html/css/js files. That folder can then be shipped off to a server for your
-viewing pleasure!
-
-
-This is as simple as running `npm run build` in your react project. When you do, you'll see some **incredibly helpful** output like this: 
-
-```
-Creating an optimized production build...
-Compiled successfully.
-
-File sizes after gzip:
-
-  41.27 KB        build/static/js/2.94623b3e.chunk.js
-  1.29 KB (-8 B)  build/static/js/main.f184d0bf.chunk.js
-  761 B           build/static/js/runtime~main.fdfcfda2.js
-  116 B           build/static/css/main.2c94c171.chunk.css
-
-The project was built assuming it is hosted at the server root.
-You can control this with the homepage field in your package.json.
-For example, add this to build it for GitHub Pages:
-
-  "homepage" : "http://myname.github.io/myapp",
-```
-
-If you want to deploy it to github pages, it even tells you how!
-
-An even easier thing is to use `https://surge.sh/` for deployments. It's literally two steps.
-
-```
-$ npm install --global surge
-# in your project directory, just run:
-$ surge
-```
-
-So cd to your generated `build` folder, and run `surge`. That's it!
-
-> You may have to create a username and password first.
 
 ## Linktree
 
