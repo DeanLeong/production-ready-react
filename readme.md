@@ -18,7 +18,7 @@ through the material efficiently.
 Code is never perfect and there are constantly new technologies and practices
 coming out that you may want to integrate into your project.
 
-In this class, we will review some new JavaScript and React practices and
+In this class, we will review some new (and some old) JavaScript and React practices and
 discuss how you could implement these into one of the React applications you
 built recently.
 
@@ -77,8 +77,7 @@ You **do not want** to have more than one of these installed at a time. Best
 case scenario, you start to ignore all the highlighting. Worst case, it actually
 creates extra work for you to figure out what the problems are.
 
-The one I prefer though is called
-[prettier](https://prettier.io/docs/en/install.html).
+The one I prefer though is called [prettier](https://prettier.io/docs/en/install.html).
 
 I like it for a number of reasons:
 
@@ -176,8 +175,8 @@ this can lead to unintended consequences. Instead, call `updateShow` with a
 function so that the previous state is preserved.
 
 ```js
-updateState(prevState => {
-  return !show
+updateShow(prevShow => {
+  return !show; // can also be written as return !prevState
 })
 ```
 
