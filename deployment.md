@@ -37,11 +37,11 @@ When we deploy our React applications, we will either manually create a producti
 
 ### Surge
 
-To work with surge, which is an npm package, we must install it globally. We only need to do this once, as it is not a per-project dependency. We can install it globally with `npm install --global surge` (or `npm i -g surge` for short). After we install it, we can use it by running the `surge` command.
+To work with surge, we can use its executable from `npx`, the same way we do with `create-react-app`.
 
 With surge, the deployment is dependent on the build we create in a folder. But how do we create a build?
 
-Within your React app (at the level of your `package.json`), run `npm run build`. This will create a production-ready static build of your site. Once you do this, `cd` into the newly created `build` folder, and take a look at the files inside. Once you've finished taking a look, run `surge`, and create an account. After creating an account, you can choose a folder (we'll choose the current folder), and a url (surge will provide a random one by default). Choose a URL quickly, as the url may also be generated for someone else at the same time (this happens relatively commonly). After you've selected the url, surge will push up this folder to the newly created website, and you'll be able to view it.
+Within your React app (at the level of your `package.json`), run `npm run build`. This will create a production-ready static build of your site. Once you do this, `cd` into the newly created `build` folder, and take a look at the files inside. Once you've finished taking a look, run `npx surge`, and create an account. After creating an account, you can choose a folder (we'll choose the current folder), and a url (surge will provide a random one by default). Choose a URL quickly, as the url may also be generated for someone else at the same time (this happens relatively commonly). After you've selected the url, surge will push up this folder to the newly created website, and you'll be able to view it.
 
 #### Pros and Cons
 Pros:
