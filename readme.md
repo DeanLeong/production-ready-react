@@ -175,7 +175,7 @@ this can lead to unintended consequences. Instead, call `setShow` with a
 function so that the previous state is preserved.
 
 ```js
-updateShow(prevShow => {
+setShow(prevShow => {
   return !show; // can also be written as return !prevShow
 })
 ```
