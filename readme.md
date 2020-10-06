@@ -164,19 +164,19 @@ This has already been implemented in this app, but you may have seen elsewhere
 that we called state updating functions with an object instead of a function, like so:
 
 ```js
-  let [show, updateShow] = useState(true)
-  updateShow(!show)
+  let [show, setShow] = useState(true)
+  setShow(!show)
 ```
 
 > This is a great shortcut for toggling a boolean value
 
-While in most cases this will work, the `updateShow` method is asynchronous. So
-this can lead to unintended consequences. Instead, call `updateShow` with a
+While in most cases this will work, the `setShow` method is asynchronous. So
+this can lead to unintended consequences. Instead, call `setShow` with a
 function so that the previous state is preserved.
 
 ```js
 updateShow(prevShow => {
-  return !show; // can also be written as return !prevState
+  return !show; // can also be written as return !prevShow
 })
 ```
 
